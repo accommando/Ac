@@ -1,0 +1,53 @@
+{
+  "entities": {
+    "Campaign": {
+      "title": "Campaign",
+      "description": "Represents an email marketing campaign.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "prompt": { "type": "string" },
+        "subject": { "type": "string" },
+        "body": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "sent", "archived"]
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "ownerId": { "type": "string" },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "opens": { "type": "integer" },
+            "clicks": { "type": "integer" },
+            "sentCount": { "type": "integer" }
+          }
+        }
+      },
+      "required": ["name", "prompt", "subject", "body", "status", "createdAt", "ownerId"]
+    },
+    "UserStats": {
+      "title": "User Stats",
+      "description": "Aggregated stats for a user's campaigns.",
+      "type": "object",
+      "properties": {
+        "totalOpens": { "type": "integer" },
+        "totalClicks": { "type": "integer" },
+        "totalSent": { "type": "integer" },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "campaigns/{campaignId}": {
+      "schema": "Campaign",
+      "description": "Storage for all email campaigns."
+    },
+    "users/{userId}/stats": {
+      "schema": "UserStats",
+      "description": "Real-time aggregated performance data for a user."
+    }
+  }
+}
